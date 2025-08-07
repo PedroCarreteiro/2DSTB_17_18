@@ -7,5 +7,7 @@ class Autor(models.Model):
     nacion = models.CharField(max_length=30, null=True, blank=True)
     biogra = models.TextField(null=True, blank=True)
 
+    
+
 
 
