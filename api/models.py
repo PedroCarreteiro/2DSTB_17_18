@@ -7,7 +7,12 @@ class Autor(models.Model):
     nacion = models.CharField(max_length=30, null=True, blank=True)
     biogra = models.TextField(null=True, blank=True)
 
-    
+    def __str__(self):
+        #return super(self.nome).__str__(self.sobrenome)
+        #return super().__str__()
+        return f"{self.nome} {self.sobrenome}"
+
+
 
 
 
