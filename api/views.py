@@ -21,7 +21,9 @@ def listar_autores(request):
         serializer = AutorSerializers(data = request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.data, status=status.HTTP_404_NOT_FOUND)
 
 class AutorRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
     queryset = Autor.objects.all()
