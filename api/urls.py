@@ -6,6 +6,7 @@ from .views.viewsLivro import *
 urlpatterns = [
     # path('autores/', AutoresView.as_view()),
     # path('autores/<int:pk>', AutorRetrieveUpdateDestroy.as_view()),
+    
     # path('autores/listar', listar_autores)
     path('autor/getautores', get_autores),
     path('autor/getautor/<int:pk>', get_autor),
