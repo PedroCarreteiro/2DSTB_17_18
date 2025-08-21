@@ -11,5 +11,19 @@ urlpatterns = [
     path('autor/getautor/<int:pk>', get_autor),
     path('autor/postautor', post_autor),
     path('autor/putautor/<int:pk>', put_autor),
-    path('autor/deleteautor/<int:pk>', delete_autor)
+    path('autor/deleteautor/<int:pk>', delete_autor),
+
+    #path('editora/', EditoraView.as_view()),
+    path('editora/geteditoras', get_editoras),
+    path('editora/geteditora/<int:pk>', get_editora),
+    path('editora/posteditora', post_editora),
+    path('editora/puteditora/<int:pk>', put_editora),
+    path('editora/deleteeditora/<int:pk>', delete_editora),
+
+    #path('livro/', LivroView.as_view()),    
+    path('livro/getlivros', get_livros),
+    path('livro/getlivro/<int:pk>', get_livro),
+    path('livro/postlivro', post_livro),
+    path('livro/putlivro/<int:pk>', put_livro),
+    path('livro/deletelivro/<int:pk>', delete_livro)
 ]
