@@ -13,7 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 #     queryset = Livro.objects.all()
 #     serializer_class = LivroSerializers
 
-#GET EDITORAS
+#GET LIVROS
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_livros(request):
