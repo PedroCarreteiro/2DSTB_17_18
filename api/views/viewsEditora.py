@@ -2,9 +2,11 @@ from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from ..models import Editora
 from ..serializers import EditoraSerializers
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 
 # #Post
 # class EditoraView(ListCreateAPIView):
@@ -13,6 +15,7 @@ from rest_framework import status
 
 #GET EDITORAS
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_editoras(request):
     queryset = Editora.objects.all()
     serializer = EditoraSerializers(queryset, many=True)
@@ -20,6 +23,7 @@ def get_editoras(request):
 
 #GET 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_editora(request, pk):
     editora = Editora.objects.get(pk=pk)
     serializer = EditoraSerializers(editora)
@@ -27,6 +31,7 @@ def get_editora(request, pk):
     
 #POST C/ JSON
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def post_editora(request):
     if request.method == 'GET':
         queryset = Editora.objects.all()
@@ -42,6 +47,7 @@ def post_editora(request):
     
 #PUT C/ JSON
 @api_view(['GET','PUT'])
+@permission_classes([IsAuthenticated])
 def put_editora(request, pk):
     if request.method == 'GET':
         editora = Editora.objects.get(pk=pk)
@@ -62,6 +68,7 @@ def put_editora(request, pk):
     
 #DELETE C/ JSON
 @api_view(['GET','DELETE'])  
+@permission_classes([IsAuthenticated])
 def delete_editora(request, pk):
     if request.method == 'GET':
         editora = Editora.objects.get(pk=pk)

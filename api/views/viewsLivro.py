@@ -2,9 +2,11 @@ from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from ..models import Livro
 from ..serializers import LivroSerializers
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
 
 # #Post
 # class LivroView(ListCreateAPIView):
@@ -13,6 +15,7 @@ from rest_framework import status
 
 #GET EDITORAS
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_livros(request):
     queryset = Livro.objects.all()
     serializer = LivroSerializers(queryset, many=True)
@@ -20,6 +23,7 @@ def get_livros(request):
 
 #GET 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_livro(request, pk):
     livro = Livro.objects.get(pk=pk)
     serializer = LivroSerializers(livro)
@@ -27,6 +31,7 @@ def get_livro(request, pk):
     
 #POST C/ JSON
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def post_livro(request):
     if request.method == 'GET':
         queryset = Livro.objects.all()
@@ -42,6 +47,7 @@ def post_livro(request):
     
 #PUT C/ JSON
 @api_view(['GET','PUT'])
+@permission_classes([IsAuthenticated])
 def put_livro(request, pk):
     if request.method == 'GET':
         livro = Livro.objects.get(pk=pk)
@@ -62,6 +68,7 @@ def put_livro(request, pk):
     
 #DELETE C/ JSON
 @api_view(['GET','DELETE'])  
+@permission_classes([IsAuthenticated])
 def delete_livro(request, pk):
     if request.method == 'GET':
         livro = Livro.objects.get(pk=pk)

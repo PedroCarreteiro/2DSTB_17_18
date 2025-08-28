@@ -2,9 +2,11 @@ from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from ..models import Autor
 from ..serializers import AutorSerializers
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+#permission_classes = [IsAuthenticated] na classe generica
 
 ##Post
 # class AutoresView(ListCreateAPIView):
@@ -32,13 +34,16 @@ from rest_framework import status
 
 #GET AUTORES
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_autores(request):
     queryset = Autor.objects.all()
     serializer = AutorSerializers(queryset, many=True)
-    return Response(serializer.data) 
+    return Response(serializer.data)
+    
 
 #GET AUTOR
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_autor(request, pk):
     autor = Autor.objects.get(pk=pk)
     serializer = AutorSerializers(autor)
@@ -56,6 +61,7 @@ def get_autor(request, pk):
     
 #POST AUTOR C/ JSON
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticated])
 def post_autor(request):
     if request.method == 'GET':
         queryset = Autor.objects.all()
@@ -71,6 +77,7 @@ def post_autor(request):
     
 #PUT AUTOR C/ JSON
 @api_view(['GET','PUT'])
+@permission_classes([IsAuthenticated])
 def put_autor(request, pk):
     if request.method == 'GET':
         autor = Autor.objects.get(pk=pk)
@@ -91,6 +98,7 @@ def put_autor(request, pk):
     
 #DELETE AUTOR C/ JSON
 @api_view(['GET','DELETE'])  
+@permission_classes([IsAuthenticated])
 def delete_autor(request, pk):
     if request.method == 'GET':
         autor = Autor.objects.get(pk=pk)

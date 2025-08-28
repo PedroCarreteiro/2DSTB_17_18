@@ -3,10 +3,11 @@ from .views.viewsAutor import *
 from .views.viewsEditora import *
 from .views.viewsLivro import *
 
-#adicionado para jwt
+#adicionado para jwt e utilizado na urlpatterns la embaixo
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
+    TokenVerifyView
 )
 
 urlpatterns = [
@@ -36,5 +37,6 @@ urlpatterns = [
 
     #Adicionado para o JWT
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('refresh/', TokenRefreshView.as_view(), name='token_refresh')
+    path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('verify/', TokenVerifyView.as_view(), name='token_verify')
 ]
