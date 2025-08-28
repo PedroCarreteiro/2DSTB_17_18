@@ -3,6 +3,12 @@ from .views.viewsAutor import *
 from .views.viewsEditora import *
 from .views.viewsLivro import *
 
+#adicionado para jwt
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
 urlpatterns = [
     # path('autores/', AutoresView.as_view()),
     # path('autores/<int:pk>', AutorRetrieveUpdateDestroy.as_view()),
@@ -26,5 +32,9 @@ urlpatterns = [
     path('livro/getlivro/<int:pk>', get_livro),
     path('livro/postlivro', post_livro),
     path('livro/putlivro/<int:pk>', put_livro),
-    path('livro/deletelivro/<int:pk>', delete_livro)
+    path('livro/deletelivro/<int:pk>', delete_livro),
+
+    #Adicionado para o JWT
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('refresh/', TokenRefreshView.as_view(), name='token_refresh')
 ]
