@@ -39,10 +39,18 @@ from rest_framework.filters import SearchFilter
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_autores(request):
+    filter_backends = [DjangoFilterBackend, SearchFilter]
     queryset = Autor.objects.all()
+
+    for backend in list(filter_backends):
+        queryset = backend().filter_queryset(request, queryset, view=get_autores)
+
     serializer = AutorSerializers(queryset, many=True)
     return Response(serializer.data)
     
+get_autores.filter_backends = [DjangoFilterBackend, SearchFilter]
+get_autores.filterset_fields = ['nome', 'sobrenome', 'nacion', 'data_nasc']
+get_autores.search_fields = ['nome', 'sobrenome', 'nacion', 'data_nasc']
 
 #GET AUTOR
 @api_view(['GET'])

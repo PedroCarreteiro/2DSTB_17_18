@@ -20,7 +20,7 @@ from rest_framework.filters import SearchFilter
 def get_livros(request):
     queryset = Livro.objects.all()
     serializer = LivroSerializers(queryset, many=True)
-    return Response(serializer.data) 
+    return Response(serializer.data)
 
 #GET 
 @api_view(['GET'])
