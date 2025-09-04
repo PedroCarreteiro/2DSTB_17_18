@@ -18,9 +18,23 @@ from rest_framework.filters import SearchFilter
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_livros(request):
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+
     queryset = Livro.objects.all()
+
+    for backend in list(filter_backends):
+        queryset = backend().filter_queryset(request, queryset, view=get_livros)
+
     serializer = LivroSerializers(queryset, many=True)
     return Response(serializer.data)
+
+get_livros.filter_backends = [DjangoFilterBackend, SearchFilter]
+
+#Buscar em específico /?campo=busca
+get_livros.filterset_fields = ['titulo', 'subtitulo', 'isbn', 'descricao', 'idioma', 'ano_publicacao', 'paginas', 'preco', 'estoque', 'desconto', 'disponivel', 'dimensoes', 'peso', 'autor', 'editora']
+
+#Buscar em todos /?search=busca
+get_livros.search_fields = ['titulo', 'subtitulo', 'isbn', 'descricao', 'idioma', 'ano_publicacao', 'paginas', 'preco', 'estoque', 'desconto', 'disponivel', 'dimensoes', 'peso', 'autor', 'editora']
 
 #GET 
 @api_view(['GET'])

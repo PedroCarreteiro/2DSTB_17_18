@@ -18,9 +18,23 @@ from rest_framework.filters import SearchFilter
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_editoras(request):
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+
     queryset = Editora.objects.all()
+
+    for backend in list(filter_backends):
+        queryset = backend().filter_queryset(request, queryset, view=get_editoras)
+
     serializer = EditoraSerializers(queryset, many=True)
     return Response(serializer.data) 
+
+get_editoras.filter_backends = [DjangoFilterBackend, SearchFilter]
+
+#Buscar em específico /?campo=busca
+get_editoras.filterset_fields = ['editora', 'cnpj', 'endereco', 'telefone', 'email', 'site']
+
+#Buscar em todos /?search=busca
+get_editoras.search_fields = ['editora', 'cnpj', 'endereco', 'telefone', 'email', 'site']
 
 #GET 
 @api_view(['GET'])
