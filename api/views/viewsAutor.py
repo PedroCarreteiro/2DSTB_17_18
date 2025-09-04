@@ -110,6 +110,27 @@ def put_autor(request, pk):
             return Response(serializer.data)
         else: 
             return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+        
+#PATCH AUTOR C/ JSON
+@api_view(['GET','PATCH'])
+@permission_classes([IsAuthenticated])
+def patch_autor(request, pk):
+    if request.method == 'GET':
+        autor = Autor.objects.get(pk=pk)
+        serializer = AutorSerializers(autor)
+        return Response(serializer.data)
+    elif request.method == 'PATCH':
+        try: 
+            autor = Autor.objects.get(pk=pk)
+        except Autor.DoesNotExist:
+            return Response({"error": "Item not found"},status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = AutorSerializers(autor, data=request.data, partial = True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else: 
+            return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
     
 #DELETE AUTOR C/ JSON
 @api_view(['GET','DELETE'])  

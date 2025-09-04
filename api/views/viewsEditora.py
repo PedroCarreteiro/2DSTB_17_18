@@ -80,6 +80,27 @@ def put_editora(request, pk):
             return Response(serializer.data)
         else: 
             return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+        
+#PATCH AUTOR C/ JSON
+@api_view(['GET','PATCH'])
+@permission_classes([IsAuthenticated])
+def patch_editora(request, pk):
+    if request.method == 'GET':
+        editora = Editora.objects.get(pk=pk)
+        serializer = EditoraSerializers(editora)
+        return Response(serializer.data)
+    elif request.method == 'PATCH':
+        try: 
+            editora = Editora.objects.get(pk=pk)
+        except Editora.DoesNotExist:
+            return Response({"error": "Item not found"},status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = EditoraSerializers(editora, data=request.data, partial = True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else: 
+            return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
     
 #DELETE C/ JSON
 @api_view(['GET','DELETE'])  
