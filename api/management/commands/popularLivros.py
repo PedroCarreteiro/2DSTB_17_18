@@ -1,7 +1,7 @@
 import pandas as pd
 from django.core.management.base import BaseCommand
 from django.db import transaction
-from api.models import Livro
+from api.models import Livro, Autor, Editora
 
 class Command (BaseCommand):
     def add_arguments(self, parser):
@@ -40,7 +40,7 @@ class Command (BaseCommand):
             for r in df.itertuples(index=False):
                 # _, selecionar apenas um dos coisa do CRUD dele
                 _, created = Livro.objects.update_or_create(
-                    titulo=r.titulo, subtitulo=r.subtitulo, isbn=r.isbn, descricao=r.descricao, idioma=r.idioma, ano_publicacao=r.ano_publicacao, paginas=r.paginas, preco=r.preco, estoque=r.estoque, desconto=r.desconto, disponivel=r.disponivel, dimensoes=r.dimensoes, peso=r.peso, autor=r.autor, editora=r.editora
+                    titulo=r.titulo, subtitulo=r.subtitulo, isbn=r.isbn, descricao=r.descricao, idioma=r.idioma, ano_publicacao=r.ano_publicacao, paginas=r.paginas, preco=r.preco, estoque=r.estoque, desconto=r.desconto, disponivel=r.disponivel, dimensoes=r.dimensoes, peso=r.peso, autor_id=r.autor, editora_id=r.editora
                 )
 
                 criados += int(created)
@@ -49,8 +49,10 @@ class Command (BaseCommand):
             self.stdout.write(self.style.SUCCESS(f'Criados: {criados} | Atualizados: {atualizados}'))
 
         else:
+            autor = Autor.objects.get(id=r.autor)
+            editora = Editora.objects.get(id=r.editora)
             objs = [Livro(
-                titulo=r.titulo, subtitulo=r.subtitulo, isbn=r.isbn, descricao=r.descricao, idioma=r.idioma, ano_publicacao=r.ano_publicacao, paginas=r.paginas, preco=r.preco, estoque=r.estoque, desconto=r.desconto, disponivel=r.disponivel, dimensoes=r.dimensoes, peso=r.peso, autor=r.autor, editora=r.editora
+                titulo=r.titulo, subtitulo=r.subtitulo, isbn=r.isbn, descricao=r.descricao, idioma=r.idioma, ano_publicacao=r.ano_publicacao, paginas=r.paginas, preco=r.preco, estoque=r.estoque, desconto=r.desconto, disponivel=r.disponivel, dimensoes=r.dimensoes, peso=r.peso, autor_id=autor, editora_id=editora
             ) for r in df.itertuples(index=False)]
 
             Livro.objects.bulk_create(objs, ignore_conflicts=True)
