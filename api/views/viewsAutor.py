@@ -49,7 +49,11 @@ def get_autores(request):
     return Response(serializer.data)
     
 get_autores.filter_backends = [DjangoFilterBackend, SearchFilter]
+
+#Buscar em específico /?campo=busca
 get_autores.filterset_fields = ['nome', 'sobrenome', 'nacion', 'data_nasc']
+
+#Buscar em todos /?search=busca
 get_autores.search_fields = ['nome', 'sobrenome', 'nacion', 'data_nasc']
 
 #GET AUTOR
