@@ -26,7 +26,6 @@ class Command (BaseCommand):
 
         df = df.query("editora !=''")
 
-        #Caso tenha alguma linha que o data_nasc não exista dados, é delatada
 
         if o["update"]:
             criados = atualizados = 0
